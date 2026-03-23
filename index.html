@@ -3,505 +3,322 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Үг Таах — Баавгайн Зоог</title>
-<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+<title>Баавгайн Зоог 🎈</title>
+<link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Nunito:wght@600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
-html,body{
-  min-height:100vh;
-  background:#fff;
-  font-family:'Nunito',sans-serif;
-  color:#111;
-  overflow-x:hidden;
-}
+html,body{min-height:100vh;background:#f0f4ff;font-family:'Nunito',sans-serif;color:#111;overflow-x:hidden;}
 
-/* ── Layout ─────────────────────────────── */
-.page{
-  max-width:900px;
-  margin:0 auto;
-  padding:0 0 40px;
+/* ═══ CATEGORY SCREEN ═══════════════════════════════ */
+#cat-screen{
   min-height:100vh;
-  display:flex;
-  flex-direction:column;
+  display:flex;flex-direction:column;align-items:center;
+  padding:2rem 1rem 3rem;
+  background:linear-gradient(160deg,#e8f4fd 0%,#fef9ec 50%,#fce8f3 100%);
 }
-
-/* ── Header ─────────────────────────────── */
-.top-bar{
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:14px 20px 10px;
-  position:relative;
-  border-bottom:2px dashed #ccc;
-}
-.home-btn{
-  position:absolute;left:16px;top:50%;transform:translateY(-50%);
-  width:44px;height:44px;border:2.5px solid #222;border-radius:10px;
-  background:#fff;cursor:pointer;font-size:20px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
-}
-.home-btn:hover{background:#f5f5f5;}
-.page-title{
+.cat-title{
   font-family:'Permanent Marker',cursive;
-  font-size:clamp(18px,3vw,26px);
-  letter-spacing:0.04em;
-  color:#222;
+  font-size:clamp(26px,6vw,48px);
+  color:#1a1a2e;
   text-align:center;
+  margin-bottom:.3rem;
+  letter-spacing:.02em;
 }
+.cat-sub{font-size:clamp(13px,3vw,16px);color:#666;text-align:center;margin-bottom:2rem;}
+.cat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+  gap:14px;
+  width:100%;
+  max-width:700px;
+}
+.cat-card{
+  background:#fff;
+  border:2.5px solid #e0e0e0;
+  border-radius:18px;
+  padding:1.2rem .8rem 1rem;
+  text-align:center;
+  cursor:pointer;
+  transition:transform .18s,border-color .18s,box-shadow .18s;
+  box-shadow:0 3px 0 #e0e0e0;
+  user-select:none;
+}
+.cat-card:hover{transform:translateY(-4px);box-shadow:0 7px 0 #ccc;}
+.cat-card:active{transform:translateY(1px);box-shadow:0 2px 0 #ccc;}
+.cat-emoji{font-size:2.4rem;margin-bottom:.5rem;display:block;line-height:1;}
+.cat-name{font-size:14px;font-weight:900;color:#1a1a2e;letter-spacing:.02em;}
+.cat-count{font-size:11px;color:#aaa;margin-top:2px;}
+.cat-card.selected{border-color:var(--clr);box-shadow:0 4px 0 var(--clr);}
 
-/* ── Dashes (word) ──────────────────────── */
+.start-btn{
+  margin-top:2rem;
+  padding:16px 48px;
+  background:#1a1a2e;color:#fff;
+  font-family:'Permanent Marker',cursive;
+  font-size:20px;letter-spacing:.04em;
+  border:none;border-radius:16px;cursor:pointer;
+  box-shadow:0 5px 0 #000;
+  transition:transform .1s,box-shadow .1s;
+  display:none;
+}
+.start-btn.show{display:block;}
+.start-btn:hover{transform:translateY(-2px);box-shadow:0 7px 0 #000;}
+.start-btn:active{transform:translateY(3px);box-shadow:0 2px 0 #000;}
+
+/* ═══ GAME SCREEN ════════════════════════════════════ */
+#game-screen{display:none;flex-direction:column;max-width:900px;margin:0 auto;min-height:100vh;}
+
+.top-bar{
+  display:flex;align-items:center;justify-content:center;
+  padding:12px 16px 10px;position:relative;
+  border-bottom:2.5px dashed #ccc;
+  background:#fff;
+}
+.back-btn{
+  position:absolute;left:12px;top:50%;transform:translateY(-50%);
+  width:42px;height:42px;border:2.5px solid #222;border-radius:10px;
+  background:#fff;cursor:pointer;font-size:18px;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .12s;
+}
+.back-btn:hover{background:#f0f0f0;}
+.page-title{font-family:'Permanent Marker',cursive;font-size:clamp(15px,3vw,22px);color:#222;text-align:center;}
+
+.score-bar{
+  padding:8px 14px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  border-bottom:2px dashed #ddd;background:#fff;
+}
+.chip{border:2.5px solid #222;border-radius:50px;padding:4px 14px;font-size:12px;font-weight:900;display:flex;align-items:center;gap:5px;background:#fff;}
+.chip.cat-chip{background:#1a1a2e;color:#fff;border-color:#1a1a2e;}
+.wrong-chip{margin-left:auto;font-size:12px;color:#888;}
+.wrong-chip b{color:#e53e3e;}
+
 .word-row{
-  display:flex;
-  justify-content:center;
-  align-items:flex-end;
-  gap:10px;
-  padding:18px 20px 14px;
-  border-bottom:2px dashed #ccc;
-  flex-wrap:wrap;
+  display:flex;justify-content:center;align-items:flex-end;gap:8px;
+  padding:14px 16px 12px;border-bottom:2.5px dashed #ddd;
+  flex-wrap:wrap;background:#fff;
 }
-.dash-slot{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:4px;
-}
+.dash-slot{display:flex;flex-direction:column;align-items:center;gap:4px;}
 .dash-letter{
   font-family:'Permanent Marker',cursive;
-  font-size:clamp(20px,4vw,32px);
-  font-weight:900;
-  color:#111;
-  min-width:32px;
-  text-align:center;
-  min-height:36px;
-  line-height:1;
+  font-size:clamp(18px,4vw,30px);color:#111;
+  min-width:28px;text-align:center;min-height:32px;line-height:1;
+  transition:transform .2s;
 }
-.dash-line{
-  width:32px;height:3px;
-  background:#111;
-  border-radius:2px;
-}
+.dash-letter.pop{animation:letterPop .3s ease;}
+@keyframes letterPop{0%{transform:scale(0) rotate(-10deg);opacity:0;}70%{transform:scale(1.3) rotate(3deg);}100%{transform:scale(1) rotate(0);opacity:1;}}
+.dash-line{width:28px;height:3px;background:#111;border-radius:2px;}
 .dash-slot.wrong-reveal .dash-letter{color:#e53e3e;}
 
-/* ── Main area ──────────────────────────── */
-.main-area{
-  display:flex;
-  flex:1;
-  min-height:0;
-  padding:10px 10px 0;
-  gap:0;
-}
+.main-area{display:flex;flex:1;min-height:0;padding:8px 8px 0;gap:0;}
 
-/* ── Left: keyboard grid ────────────────── */
-.keyboard-panel{
-  flex:0 0 auto;
-  padding:10px 10px 0 6px;
-  display:flex;
-  flex-direction:column;
-  gap:0;
-}
-.kb-row{
-  display:flex;
-  gap:0;
-  margin-bottom:0;
-}
+/* Keyboard */
+.keyboard-panel{flex:0 0 auto;padding:8px 6px 0 4px;display:flex;flex-direction:column;}
+.kb-row{display:flex;gap:0;}
 .key{
-  width:clamp(42px,6.5vw,58px);
-  height:clamp(42px,6.5vw,58px);
-  border:2.5px solid #111;
-  background:#fff;
-  font-family:'Permanent Marker',cursive;
-  font-size:clamp(14px,2.2vw,20px);
-  color:#111;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  margin:-1px -1px 0 0;
-  transition:background .12s,color .12s,opacity .12s;
-  user-select:none;
-  position:relative;
-  z-index:1;
+  width:clamp(38px,5.8vw,54px);height:clamp(38px,5.8vw,54px);
+  border:2.5px solid #111;background:#fff;
+  font-family:'Bebas Neue',cursive;font-size:clamp(14px,2.2vw,20px);color:#111;letter-spacing:.04em;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  margin:-1.25px -1.25px 0 0;
+  transition:background .1s,color .1s;user-select:none;position:relative;z-index:1;
 }
 .key:hover:not(.used){background:#f0f0f0;z-index:2;}
 .key:active:not(.used){background:#e0e0e0;}
-.key.correct{background:#111;color:#fff;pointer-events:none;}
-.key.wrong{background:#e0e0e0;color:#aaa;pointer-events:none;text-decoration:line-through;}
+.key.correct{background:#1a1a2e;color:#fff;pointer-events:none;}
+.key.wrong{background:#f0f0f0;color:#bbb;pointer-events:none;text-decoration:line-through;}
 
-/* ── Right: scene ───────────────────────── */
-.scene-panel{
-  flex:1;
-  position:relative;
-  min-height:340px;
-  overflow:hidden;
-  display:flex;
-  align-items:flex-end;
-  justify-content:center;
-}
+/* Scene */
+.scene-panel{flex:1;position:relative;min-height:300px;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;}
+.trees{position:absolute;bottom:0;right:0;width:55%;height:100%;display:flex;align-items:flex-end;justify-content:flex-end;pointer-events:none;opacity:.1;}
+.tree{width:clamp(36px,7vw,64px);background:#111;border-radius:8px 8px 0 0;margin-right:4px;}
+.tree1{height:75%}.tree2{height:92%}.tree3{height:58%}
 
-/* Trees (background) */
-.trees{
-  position:absolute;
-  bottom:0;right:0;
-  width:55%;
-  height:100%;
-  display:flex;
-  align-items:flex-end;
-  justify-content:flex-end;
-  pointer-events:none;
-  opacity:0.13;
-}
-.tree{
-  width:clamp(40px,8vw,70px);
-  background:#111;
-  border-radius:8px 8px 0 0;
-  margin-right:6px;
-}
-.tree1{height:75%;}
-.tree2{height:92%;}
-.tree3{height:60%;}
+.person-wrap{position:absolute;bottom:clamp(80px,16vw,150px);left:54%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;transition:transform .5s;}
+.person-wrap.falling{animation:personFall .9s ease-in forwards;}
+@keyframes personFall{0%{transform:translateX(-50%) translateY(0) rotate(0);}60%{transform:translateX(-20%) translateY(30px) rotate(20deg);}100%{transform:translateX(20%) translateY(120px) rotate(40deg) scale(.5);opacity:0;}}
 
-/* Person + balloons */
-.person-wrap{
-  position:absolute;
-  bottom:clamp(90px,18vw,160px);
-  left:55%;
-  transform:translateX(-50%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  transition:transform 0.5s ease;
-}
-.person-wrap.falling{
-  animation:personFall .9s ease-in forwards;
-}
-@keyframes personFall{
-  0%{transform:translateX(-50%) translateY(0) rotate(0);}
-  60%{transform:translateX(-30%) translateY(40px) rotate(25deg);}
-  100%{transform:translateX(0%) translateY(140px) rotate(45deg) scale(0.6);opacity:0;}
-}
-
-/* Balloons group */
-.balloons-wrap{
-  display:flex;
-  gap:clamp(3px,1vw,7px);
-  align-items:flex-end;
-  margin-bottom:0;
-}
-.balloon-item{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
+.balloons-wrap{display:flex;gap:clamp(3px,.8vw,7px);align-items:flex-end;}
+.balloon-item{display:flex;flex-direction:column;align-items:center;}
 .balloon-body{
-  width:clamp(24px,4vw,36px);
-  height:clamp(30px,5vw,44px);
-  border-radius:50% 50% 50% 50% / 55% 55% 45% 45%;
-  position:relative;
-  animation:floatB 2.5s ease-in-out infinite;
-  transition:transform .2s;
+  width:clamp(22px,3.8vw,34px);height:clamp(28px,4.8vw,42px);
+  border-radius:50% 50% 50% 50%/55% 55% 45% 45%;
+  position:relative;animation:floatB 2.5s ease-in-out infinite;
 }
-.balloon-body::after{
-  content:'';position:absolute;bottom:-2px;left:50%;
-  transform:translateX(-50%);width:5px;height:5px;
-  background:inherit;border-radius:50%;
-}
-.balloon-string-svg{
-  width:1px;height:clamp(18px,3vw,28px);
-  background:rgba(0,0,0,0.35);
-}
-.balloon-item.popped .balloon-body{
-  animation:popB .25s ease forwards !important;
-}
-@keyframes popB{0%{transform:scale(1);opacity:1;}60%{transform:scale(1.6);opacity:.5;}100%{transform:scale(0);opacity:0;}}
+.balloon-body::after{content:'';position:absolute;bottom:-2px;left:50%;transform:translateX(-50%);width:5px;height:5px;background:inherit;border-radius:50%;}
+.balloon-string-line{width:1px;height:clamp(16px,2.5vw,26px);background:rgba(0,0,0,.3);}
+.balloon-item.popped .balloon-body{animation:popB .25s ease forwards!important;}
+@keyframes popB{0%{transform:scale(1);opacity:1;}60%{transform:scale(1.7);opacity:.4;}100%{transform:scale(0);opacity:0;}}
 @keyframes floatB{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-6px) rotate(2deg);}}
+.bc0{background:#c0392b;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);}
+.bc1{background:#8e44ad;box-shadow:inset -4px -5px 0 rgba(0,0,0,.10);}
+.bc2{background:#27ae60;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);}
+.bc3{background:#2980b9;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);}
+.bc4{background:#e67e22;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);}
+.bc5{background:#d35400;box-shadow:inset -4px -5px 0 rgba(0,0,0,.12);}
 
-/* Balloon colors — same as screenshot */
-.bc0{background:#c0392b;} /* dark red */
-.bc1{background:#8e44ad;} /* purple */
-.bc2{background:#27ae60;} /* green */
-.bc2b{background:#2980b9;} /* blue */
-.bc3{background:#e67e22;} /* orange */
-.bc4{background:#d35400;} /* dark orange */
+.bundle-svg{width:clamp(16px,2.5vw,26px);height:clamp(14px,2vw,20px);margin-top:-2px;}
+.person-svg{width:clamp(46px,8vw,70px);height:auto;display:block;}
 
-/* String bundle from hands */
-.bundle-strings{
-  width:clamp(18px,3vw,28px);
-  height:clamp(16px,2.5vw,22px);
-  margin-top:-2px;
-}
-
-/* Person SVG */
-.person-svg{
-  width:clamp(50px,9vw,76px);
-  height:auto;
-  display:block;
-}
-
-/* Bear */
-.bear-wrap{
-  position:absolute;
-  bottom:0;
-  left:55%;
-  transform:translateX(-50%);
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-}
-.bear-svg{
-  width:clamp(70px,14vw,120px);
-  height:auto;
-  display:block;
-  filter:drop-shadow(0 4px 8px rgba(0,0,0,0.15));
-}
+.bear-wrap{position:absolute;bottom:0;left:54%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;}
+.bear-svg{width:clamp(65px,13vw,110px);height:auto;display:block;filter:drop-shadow(0 3px 6px rgba(0,0,0,.15));}
 .bear-wrap.nom .bear-svg{animation:bearNom .5s ease;}
-@keyframes bearNom{0%,100%{transform:scale(1);}30%{transform:scale(1.2) translateY(-8px);}60%{transform:scale(.9);}}
+@keyframes bearNom{0%,100%{transform:scale(1);}30%{transform:scale(1.25) translateY(-8px);}60%{transform:scale(.9);}}
 
-/* Ground */
-.ground{
-  position:absolute;
-  bottom:0;left:0;right:0;
-  height:clamp(30px,5vw,46px);
-  background:linear-gradient(180deg,#e8e8e8 0%,#ccc 100%);
-  border-radius:0;
-}
+.ground{position:absolute;bottom:0;left:0;right:0;height:clamp(28px,5vw,44px);background:linear-gradient(180deg,#d4e8b0 0%,#a8cc6a 100%);}
+.ground::before{content:'🌿🌱🌿🌱🌿🌱🌿🌱🌿🌱🌿🌱🌿🌱';position:absolute;top:-10px;left:0;right:0;font-size:16px;letter-spacing:2px;white-space:nowrap;overflow:hidden;}
 
-/* ── Hint bar ───────────────────────────── */
-.hint-bar{
-  background:#f9f9f9;
-  border-top:2px dashed #ccc;
-  padding:10px 20px;
-  display:flex;
-  gap:16px;
-  align-items:center;
-  flex-wrap:wrap;
-}
-.hint-cat{
-  font-size:12px;font-weight:900;
-  background:#111;color:#fff;
-  border-radius:50px;padding:4px 14px;
-  white-space:nowrap;
-  letter-spacing:.04em;
-}
+.hint-bar{background:#fff;border-top:2px dashed #ddd;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap;}
+.hint-cat{font-size:12px;font-weight:900;background:#1a1a2e;color:#fff;border-radius:50px;padding:4px 14px;white-space:nowrap;}
 .hint-text{font-size:13px;color:#555;line-height:1.5;flex:1;}
 
-/* ── Score bar ──────────────────────────── */
-.score-bar{
-  padding:8px 20px;
-  display:flex;gap:12px;align-items:center;
-  border-bottom:2px dashed #ccc;
-}
-.score-chip{
-  border:2px solid #111;border-radius:50px;
-  padding:3px 14px;font-size:12px;font-weight:900;
-  display:flex;align-items:center;gap:5px;
-}
-
-/* ── Result overlay ─────────────────────── */
-.overlay{
-  position:fixed;inset:0;
-  background:rgba(0,0,0,.45);
-  display:flex;align-items:center;justify-content:center;
-  z-index:100;padding:1.5rem;
-  backdrop-filter:blur(4px);
-  opacity:0;pointer-events:none;transition:opacity .25s;
-}
+/* Overlay */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:1.5rem;backdrop-filter:blur(5px);opacity:0;pointer-events:none;transition:opacity .25s;}
 .overlay.show{opacity:1;pointer-events:all;}
-.result-card{
-  background:#fff;
-  border:3px solid #111;
-  border-radius:20px;
-  padding:2rem 1.5rem;
-  max-width:360px;width:100%;
-  text-align:center;
-  transform:scale(.88);transition:transform .3s cubic-bezier(.34,1.56,.64,1);
-  box-shadow:6px 6px 0 #111;
-}
+.result-card{background:#fff;border:3px solid #111;border-radius:20px;padding:1.8rem 1.5rem;max-width:360px;width:100%;text-align:center;transform:scale(.85);transition:transform .3s cubic-bezier(.34,1.56,.64,1);box-shadow:6px 6px 0 #111;}
 .overlay.show .result-card{transform:scale(1);}
-.res-big{font-size:3.2rem;margin-bottom:.5rem;}
-.res-title{font-family:'Permanent Marker',cursive;font-size:1.8rem;margin-bottom:.4rem;}
+.res-big{font-size:3rem;margin-bottom:.4rem;}
+.res-title{font-family:'Permanent Marker',cursive;font-size:1.7rem;margin-bottom:.4rem;}
 .res-word{font-size:14px;color:#666;margin-bottom:.3rem;}
 .res-word strong{color:#111;font-size:16px;}
-.res-info{font-size:13px;color:#aaa;margin-bottom:1.4rem;}
+.res-info{font-size:13px;color:#aaa;margin-bottom:1.3rem;}
 .res-info strong{color:#111;}
-.play-btn{
-  width:100%;padding:14px;border-radius:12px;
-  background:#111;color:#fff;
-  font-family:'Permanent Marker',cursive;
-  font-size:16px;cursor:pointer;border:none;
-  box-shadow:0 4px 0 #555;
-  transition:transform .1s,box-shadow .1s;
-}
-.play-btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 #555;}
-.play-btn:active{transform:translateY(2px);box-shadow:0 2px 0 #555;}
+.res-btns{display:flex;gap:10px;}
+.res-btn{flex:1;padding:13px;border-radius:12px;font-family:'Permanent Marker',cursive;font-size:15px;cursor:pointer;border:2.5px solid #111;transition:transform .1s,box-shadow .1s;}
+.res-btn.primary{background:#1a1a2e;color:#fff;box-shadow:0 4px 0 #000;}
+.res-btn.primary:hover{transform:translateY(-2px);box-shadow:0 6px 0 #000;}
+.res-btn.secondary{background:#fff;color:#111;box-shadow:0 4px 0 #aaa;}
+.res-btn.secondary:hover{transform:translateY(-2px);box-shadow:0 6px 0 #aaa;}
 
-/* ── Toast ──────────────────────────────── */
-.toast{
-  position:fixed;bottom:1.5rem;left:50%;
-  transform:translateX(-50%) translateY(20px);
-  background:#111;color:#fff;border-radius:50px;
-  padding:10px 22px;font-size:13px;font-weight:700;
-  opacity:0;transition:opacity .2s,transform .2s;
-  z-index:200;white-space:nowrap;pointer-events:none;
-}
+/* Toast */
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(20px);background:#1a1a2e;color:#fff;border-radius:50px;padding:10px 22px;font-size:13px;font-weight:700;opacity:0;transition:opacity .2s,transform .2s;z-index:200;white-space:nowrap;pointer-events:none;}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ── Pop particle ───────────────────────── */
+/* Pop particle */
 .pop-p{position:fixed;pointer-events:none;z-index:99;animation:pflt .7s ease forwards;}
 @keyframes pflt{0%{transform:translateY(0) scale(1);opacity:1;}100%{transform:translateY(-55px) scale(.3);opacity:0;}}
 
-/* ── Flash ──────────────────────────────── */
+/* Flash */
 .flash{position:fixed;inset:0;pointer-events:none;z-index:98;animation:fout .5s ease forwards;}
 @keyframes fout{from{opacity:1}to{opacity:0}}
 
-@media(max-width:520px){
+/* Confetti particle */
+.conf{position:fixed;pointer-events:none;z-index:97;width:8px;height:8px;border-radius:2px;animation:confFall linear forwards;}
+@keyframes confFall{0%{transform:translateY(-20px) rotate(0);opacity:1;}100%{transform:translateY(100vh) rotate(720deg);opacity:0;}}
+
+@keyframes popIn{from{transform:scale(.5) rotate(-10deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+
+@media(max-width:480px){
   .main-area{flex-direction:column;}
-  .keyboard-panel{padding:8px 6px 0;}
+  .keyboard-panel{padding:6px 4px 0;order:2;}
   .kb-row{justify-content:center;}
-  .scene-panel{min-height:220px;}
-  .person-wrap{left:52%;bottom:clamp(70px,22vw,120px);}
+  .scene-panel{min-height:200px;order:1;}
+  .person-wrap{left:52%;bottom:clamp(60px,20vw,110px);}
   .bear-wrap{left:52%;}
+  .key{width:clamp(34px,8.5vw,48px);height:clamp(34px,8.5vw,48px);font-size:clamp(11px,2.5vw,15px);}
 }
 </style>
 </head>
 <body>
-<div class="page">
 
-  <!-- Header -->
+<!-- ═══ CATEGORY SCREEN ═══════════════════════════════ -->
+<div id="cat-screen">
+  <div style="font-size:3rem;margin-bottom:.5rem;">🎈</div>
+  <div class="cat-title">Баавгайн Зоог</div>
+  <div class="cat-sub">Ангилал сонгоод тоглоомоо эхлүүл!</div>
+  <div class="cat-grid" id="cat-grid"></div>
+  <button class="start-btn" id="start-btn" onclick="startGame()">Тоглоом эхлэх ➜</button>
+</div>
+
+<!-- ═══ GAME SCREEN ════════════════════════════════════ -->
+<div id="game-screen">
   <div class="top-bar">
-    <button class="home-btn" onclick="showToast('Нүүр хуудас')">🏠</button>
-    <div class="page-title" id="page-title">Монгол Үг Таах</div>
+    <button class="back-btn" onclick="goBack()">←</button>
+    <div class="page-title" id="page-title">Баавгайн Зоог</div>
   </div>
 
-  <!-- Score -->
   <div class="score-bar">
-    <div class="score-chip">⭐ Оноо: <span id="score-val">0</span></div>
-    <div class="score-chip">🔥 <span id="streak-val">0</span></div>
-    <div style="margin-left:auto;font-size:12px;color:#888;">Буруу: <span id="wrong-val" style="font-weight:900;color:#e53e3e;">0</span>/6</div>
+    <div class="chip cat-chip" id="cat-chip">—</div>
+    <div class="chip">⭐ <span id="score-val">0</span></div>
+    <div class="chip">🔥 <span id="streak-val">0</span></div>
+    <div class="wrong-chip">Буруу: <b id="wrong-val">0</b>/6</div>
   </div>
 
-  <!-- Word dashes -->
   <div class="word-row" id="word-row"></div>
 
-  <!-- Main -->
   <div class="main-area">
-    <!-- Keyboard -->
     <div class="keyboard-panel" id="kb-panel"></div>
-
-    <!-- Scene -->
     <div class="scene-panel">
-      <!-- Trees bg -->
-      <div class="trees">
-        <div class="tree tree1"></div>
-        <div class="tree tree2"></div>
-        <div class="tree tree3"></div>
-      </div>
-
-      <!-- Person + balloons -->
+      <div class="trees"><div class="tree tree1"></div><div class="tree tree2"></div><div class="tree tree3"></div></div>
       <div class="person-wrap" id="person-wrap">
-        <!-- Balloons -->
         <div class="balloons-wrap" id="balloons-wrap">
-          <div class="balloon-item" id="bi0"><div class="balloon-body bc0" id="bb0"></div><div class="balloon-string-svg"></div></div>
-          <div class="balloon-item" id="bi1"><div class="balloon-body bc1" id="bb1"></div><div class="balloon-string-svg"></div></div>
-          <div class="balloon-item" id="bi2"><div class="balloon-body bc2" id="bb2"></div><div class="balloon-string-svg"></div></div>
-          <div class="balloon-item" id="bi3"><div class="balloon-body bc2b" id="bb3"></div><div class="balloon-string-svg"></div></div>
-          <div class="balloon-item" id="bi4"><div class="balloon-body bc3" id="bb4"></div><div class="balloon-string-svg"></div></div>
-          <div class="balloon-item" id="bi5"><div class="balloon-body bc4" id="bb5"></div><div class="balloon-string-svg"></div></div>
+          <div class="balloon-item" id="bi0"><div class="balloon-body bc0" id="bb0"></div><div class="balloon-string-line"></div></div>
+          <div class="balloon-item" id="bi1"><div class="balloon-body bc1" id="bb1"></div><div class="balloon-string-line"></div></div>
+          <div class="balloon-item" id="bi2"><div class="balloon-body bc2" id="bb2"></div><div class="balloon-string-line"></div></div>
+          <div class="balloon-item" id="bi3"><div class="balloon-body bc3" id="bb3"></div><div class="balloon-string-line"></div></div>
+          <div class="balloon-item" id="bi4"><div class="balloon-body bc4" id="bb4"></div><div class="balloon-string-line"></div></div>
+          <div class="balloon-item" id="bi5"><div class="balloon-body bc5" id="bb5"></div><div class="balloon-string-line"></div></div>
         </div>
-
-        <!-- String bundle -->
-        <svg class="bundle-strings" viewBox="0 0 28 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="4" y1="0" x2="14" y2="22" stroke="#555" stroke-width="1"/>
-          <line x1="9" y1="0" x2="14" y2="22" stroke="#555" stroke-width="1"/>
-          <line x1="14" y1="0" x2="14" y2="22" stroke="#555" stroke-width="1"/>
-          <line x1="19" y1="0" x2="14" y2="22" stroke="#555" stroke-width="1"/>
-          <line x1="24" y1="0" x2="14" y2="22" stroke="#555" stroke-width="1"/>
+        <svg class="bundle-svg" viewBox="0 0 26 20" fill="none">
+          <line x1="3" y1="0" x2="13" y2="20" stroke="#555" stroke-width="1"/>
+          <line x1="8" y1="0" x2="13" y2="20" stroke="#555" stroke-width="1"/>
+          <line x1="13" y1="0" x2="13" y2="20" stroke="#555" stroke-width="1"/>
+          <line x1="18" y1="0" x2="13" y2="20" stroke="#555" stroke-width="1"/>
+          <line x1="23" y1="0" x2="13" y2="20" stroke="#555" stroke-width="1"/>
         </svg>
-
-        <!-- Person SVG (matches screenshot style: circle head, simple body) -->
-        <svg class="person-svg" viewBox="0 0 60 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Head -->
+        <svg class="person-svg" viewBox="0 0 60 90" fill="none">
           <circle cx="30" cy="14" r="12" fill="#fff" stroke="#111" stroke-width="3"/>
-          <!-- Face: calm eyes -->
           <circle cx="25" cy="12" r="2" fill="#111" id="eye-l"/>
           <circle cx="35" cy="12" r="2" fill="#111" id="eye-r"/>
           <path id="mouth" d="M25 18 Q30 22 35 18" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <!-- Hair-like stroke -->
           <path d="M18 8 Q30 2 42 8" stroke="#111" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- Body -->
           <line x1="30" y1="26" x2="30" y2="62" stroke="#111" stroke-width="3.5" stroke-linecap="round"/>
-          <!-- Shirt collar detail -->
           <path d="M22 32 Q30 36 38 32" stroke="#111" stroke-width="2" fill="none" stroke-linecap="round"/>
-          <!-- Arms up (holding strings) -->
           <line x1="30" y1="38" x2="12" y2="26" stroke="#111" stroke-width="3" stroke-linecap="round"/>
           <line x1="30" y1="38" x2="48" y2="26" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-          <!-- Legs dangling -->
           <line x1="30" y1="62" x2="18" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
           <line x1="30" y1="62" x2="42" y2="80" stroke="#111" stroke-width="3" stroke-linecap="round"/>
-          <!-- Shoes -->
           <ellipse cx="16" cy="82" rx="6" ry="4" fill="#111"/>
           <ellipse cx="44" cy="82" rx="6" ry="4" fill="#111"/>
         </svg>
       </div>
-
-      <!-- Bear (cute, chubby SVG) -->
       <div class="bear-wrap" id="bear-wrap">
-        <svg class="bear-svg" viewBox="0 0 120 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <!-- Shadow -->
+        <svg class="bear-svg" viewBox="0 0 120 130" fill="none">
           <ellipse cx="60" cy="126" rx="38" ry="6" fill="rgba(0,0,0,0.1)"/>
-          <!-- Body -->
           <ellipse cx="60" cy="92" rx="36" ry="32" fill="#4a3728"/>
-          <!-- Belly -->
           <ellipse cx="60" cy="98" rx="22" ry="20" fill="#7a5c48"/>
-          <!-- Left leg -->
           <ellipse cx="40" cy="118" rx="12" ry="8" fill="#4a3728"/>
-          <!-- Right leg -->
           <ellipse cx="80" cy="118" rx="12" ry="8" fill="#4a3728"/>
-          <!-- Left arm -->
           <ellipse cx="22" cy="90" rx="9" ry="14" fill="#4a3728" transform="rotate(-15 22 90)"/>
-          <!-- Right arm -->
           <ellipse cx="98" cy="90" rx="9" ry="14" fill="#4a3728" transform="rotate(15 98 90)"/>
-          <!-- Paws -->
           <ellipse cx="18" cy="100" rx="8" ry="6" fill="#3a2a1e"/>
           <ellipse cx="102" cy="100" rx="8" ry="6" fill="#3a2a1e"/>
-          <!-- Head -->
           <circle cx="60" cy="52" r="30" fill="#4a3728"/>
-          <!-- Left ear -->
           <circle cx="34" cy="26" r="12" fill="#4a3728"/>
           <circle cx="34" cy="26" r="7" fill="#7a5c48"/>
-          <!-- Right ear -->
           <circle cx="86" cy="26" r="12" fill="#4a3728"/>
           <circle cx="86" cy="26" r="7" fill="#7a5c48"/>
-          <!-- Face -->
-          <!-- Muzzle -->
           <ellipse cx="60" cy="62" rx="16" ry="12" fill="#7a5c48"/>
-          <!-- Nose -->
           <ellipse cx="60" cy="56" rx="6" ry="4" fill="#2a1a10"/>
-          <!-- Nose shine -->
           <ellipse cx="58" cy="54.5" rx="2" ry="1.5" fill="rgba(255,255,255,0.35)"/>
-          <!-- Eyes -->
           <circle cx="46" cy="46" r="5" fill="#fff"/>
           <circle cx="74" cy="46" r="5" fill="#fff"/>
           <circle cx="47" cy="46" r="3" fill="#1a0a00" id="bear-eye-l"/>
           <circle cx="75" cy="46" r="3" fill="#1a0a00" id="bear-eye-r"/>
-          <!-- Eye shine -->
           <circle cx="48.5" cy="44.5" r="1.2" fill="#fff"/>
           <circle cx="76.5" cy="44.5" r="1.2" fill="#fff"/>
-          <!-- Mouth (smile) -->
           <path id="bear-mouth" d="M52 66 Q60 72 68 66" stroke="#2a1a10" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-          <!-- Blush -->
           <ellipse cx="40" cy="56" rx="7" ry="4" fill="rgba(220,80,80,0.22)"/>
           <ellipse cx="80" cy="56" rx="7" ry="4" fill="rgba(220,80,80,0.22)"/>
-          <!-- Tummy button -->
           <circle cx="60" cy="104" r="3" fill="#3a2a1e"/>
         </svg>
       </div>
-
       <div class="ground"></div>
     </div>
   </div>
 
-  <!-- Hint -->
   <div class="hint-bar">
-    <div class="hint-cat" id="cat-tag">—</div>
+    <div class="hint-cat" id="hint-cat-tag">—</div>
     <div class="hint-text">💡 <span id="hint-text">...</span></div>
   </div>
 </div>
@@ -513,63 +330,167 @@ html,body{
     <div class="res-title" id="res-title">Баяр хүргэе!</div>
     <div class="res-word" id="res-word"></div>
     <div class="res-info" id="res-info"></div>
-    <button class="play-btn" onclick="loadWord()">Дараагийн үг ➜</button>
+    <div class="res-btns">
+      <button class="res-btn secondary" onclick="goBack()">← Ангилал</button>
+      <button class="res-btn primary" onclick="loadWord()">Дараагийн ➜</button>
+    </div>
   </div>
 </div>
 <div class="toast" id="toast"></div>
 
 <script>
-/* ── Audio ─────────────────────────────── */
+/* ═══ AUDIO ══════════════════════════════════════════ */
 const AC = new (window.AudioContext||window.webkitAudioContext)();
-function pt(f,t,d,v,delay){
+function pt(f,t,d,v,delay,bend){
   try{
-    const o=AC.createOscillator(),g=AC.createGain();
+    const o=AC.createOscillator(),g=AC.createGain(),c=AC.currentTime+(delay||0);
     o.connect(g);g.connect(AC.destination);
-    o.type=t;o.frequency.setValueAtTime(f,AC.currentTime+(delay||0));
-    g.gain.setValueAtTime(v||.18,AC.currentTime+(delay||0));
-    g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+(delay||0)+d);
-    o.start(AC.currentTime+(delay||0));o.stop(AC.currentTime+(delay||0)+d);
+    o.type=t;o.frequency.setValueAtTime(f,c);
+    if(bend) o.frequency.exponentialRampToValueAtTime(bend,c+d*.7);
+    g.gain.setValueAtTime(v||.18,c);
+    g.gain.exponentialRampToValueAtTime(.001,c+d);
+    o.start(c);o.stop(c+d);
   }catch(e){}
 }
 const sfx={
-  key:   ()=>pt(880,'sine',.05,.08),
-  right: ()=>[523,659,784].forEach((f,i)=>pt(f,'sine',.14,.2,i*.07)),
-  pop:   ()=>{[400,280,150].forEach((f,i)=>pt(f,'square',.07,.28,i*.04));pt(110,'sawtooth',.12,.22,.1);},
-  win:   ()=>[523,659,784,1047,1319].forEach((f,i)=>pt(f,'sine',.22,.28,i*.07)),
-  lose:  ()=>[350,280,220,150].forEach((f,i)=>pt(f,'sawtooth',.22,.25,i*.1)),
+  key:    ()=>{ pt(1200,'sine',.04,.06); pt(600,'sine',.04,.04,.01); },
+  right:  ()=>{ [523,659,784,1047].forEach((f,i)=>pt(f,'sine',.18,.22,i*.065)); },
+  wrong:  ()=>{ pt(280,'sawtooth',.08,.25); pt(220,'sawtooth',.14,.2,.08,160); },
+  pop:    ()=>{ pt(800,'square',.04,.3); pt(500,'square',.05,.25,.03); pt(300,'sawtooth',.1,.2,.06,180); pt(120,'sawtooth',.15,.18,.12); },
+  win:    ()=>{ [523,659,784,1047,1319,1568].forEach((f,i)=>pt(f,'sine',.22,.28,i*.07)); },
+  lose:   ()=>{ [350,290,230,180,140].forEach((f,i)=>pt(f,'sawtooth',.2,.24,i*.09)); },
+  lvlup:  ()=>{ [659,784,880,1047].forEach((f,i)=>pt(f,'triangle',.2,.26,i*.06)); },
+  start:  ()=>{ [440,554,659].forEach((f,i)=>pt(f,'sine',.15,.22,i*.08)); },
 };
 function unlockAC(){if(AC.state==='suspended')AC.resume();}
 document.addEventListener('touchstart',unlockAC,{once:true});
 document.addEventListener('click',unlockAC,{once:true});
 
-/* ── Words ─────────────────────────────── */
-const WORDS=[
-  {w:'АРСЛАН',    h:'Африкийн тал нутгийн хаан амьтан',                cat:'Амьтан'},
-  {w:'БААВГАЙ',   h:'Ойд амьдардаг том зузаан үстэй амьтан',           cat:'Амьтан'},
-  {w:'ИРВЭС',     h:'Монгол уулын цоо тарлан мөрт амьтан',             cat:'Амьтан'},
-  {w:'ТЭМЭЭ',     h:'Нуруундаа бөхтэй цөлд амьдардаг амьтан',          cat:'Амьтан'},
-  {w:'ЧОНО',      h:'Сүрэглэж агнадаг зэрлэг амьтан',                  cat:'Амьтан'},
-  {w:'МОРЬ',      h:'Монголчуудын хамгийн дотны найз амьтан',          cat:'Амьтан'},
-  {w:'БУГА',      h:'Эвэртэй ойд амьдардаг зэрлэг амьтан',             cat:'Амьтан'},
-  {w:'БАНШТАЙ',   h:'Мах хийж бүтээсэн монгол гурилан хоол',            cat:'Хоол'},
-  {w:'ЦУЙВАН',    h:'Мах гурилыг хамт хуурч хийдэг монгол хоол',       cat:'Хоол'},
-  {w:'ХУУШУУР',   h:'Тосонд шарсан монгол гурилан хоол',                cat:'Хоол'},
-  {w:'ТАРАГ',     h:'Исгэсэн сүүгээр хийсэн монгол цагаан идээ',       cat:'Хоол'},
-  {w:'ГОВЬ',      h:'Монголын өмнөд хэсэгт оршдог цөлийн бүс',         cat:'Байгаль'},
-  {w:'ХӨВСГӨЛ',   h:'Монголын хамгийн том цэнгэг усны нуур',           cat:'Байгаль'},
-  {w:'ТАЙГА',     h:'Шилмүүст мод бүхий хойд бүсийн ой',              cat:'Байгаль'},
-  {w:'АЛТАЙ',     h:'Монголын баруун хэсгийн өндөр уулс',              cat:'Байгаль'},
-  {w:'ДАЛАЙ',     h:'Дэлхийн хамгийн том усан сан',                    cat:'Байгаль'},
-  {w:'БӨХИЙН',    h:'Монголын үндэсний биеийн тэмцэгч спорт',          cat:'Спорт'},
-  {w:'СУРЫН',     h:'Нум сумаар онилдог монгол уламжлалт спорт',       cat:'Спорт'},
-  {w:'ХӨЛБӨМБӨГ', h:'Хөлөөр бөмбөг цохидог дэлхийн алдартай тоглоом', cat:'Спорт'},
-  {w:'НИЙСЛЭЛ',   h:'Монголын нийслэл хот Улаанбаатар',                cat:'Газар'},
-  {w:'ДАРХАН',    h:'Монголын хоёрдугаар том хот',                      cat:'Газар'},
-  {w:'ДОРНОД',    h:'Монголын зүүн аймаг',                             cat:'Газар'},
-  {w:'ЦАСАН',     h:'Өвөлдөө унадаг цагаан мөстэй тунадас',            cat:'Байгаль'},
-  {w:'УУЛЫН',     h:'Өндөрлөг газрын шинж чанартай',                   cat:'Байгаль'},
+/* ═══ WORD DATA ══════════════════════════════════════ */
+const CATEGORIES = [
+  {
+    id:'animal', name:'Амьтан', emoji:'🦁', color:'#e67e22',
+    words:[
+      {w:'АРСЛАН',   h:'Африкийн тал нутгийн хаан амьтан'},
+      {w:'БААВГАЙ',  h:'Ойд амьдардаг том зузаан үстэй амьтан'},
+      {w:'ИРВЭС',    h:'Монгол уулын цоо тарлан мөрт амьтан'},
+      {w:'ТЭМЭЭ',    h:'Нуруундаа бөхтэй цөлд амьдардаг амьтан'},
+      {w:'ЧОНО',     h:'Сүрэглэж агнадаг зэрлэг амьтан'},
+      {w:'МОРЬ',     h:'Монголчуудын хамгийн дотны найз амьтан'},
+      {w:'БУГА',     h:'Эвэртэй ойд амьдардаг зэрлэг амьтан'},
+      {w:'ТАХИА',    h:'Өндөг гаргадаг гэрийн шувуу'},
+      {w:'ЗАРАА',    h:'Биеэ өмхий үнэртэй шингэнээр хамгаалдаг жижиг амьтан'},
+      {w:'ХАЛИУН',   h:'Усанд амьдардаг зузаан арьстай том амьтан'},
+      {w:'ТАРВАГА',  h:'Монголын тал нутгийн нүхэнд амьдардаг амьтан'},
+      {w:'МИНЖ',     h:'Усан дотор хааш хийж амьдардаг амьтан'},
+      {w:'ХЯРС',     h:'Шөнө нисдэг сохор харанхуйг мэдэрдэг жижиг амьтан'},
+      {w:'БОРО',     h:'Монголын нутагт байдаг зэрлэг адуу'},
+    ]
+  },
+  {
+    id:'mongol', name:'Монгол Ахуй', emoji:'🏠', color:'#e74c3c',
+    words:[
+      {w:'ГЭРИЙН',   h:'Монголчуудын уламжлалт дугуй байшин'},
+      {w:'ДЭЛИЙН',   h:'Монгол дэлхэдэнгийн тэмдэг'},
+      {w:'НААДАМ',   h:'Монголын үндэсний баяр — бөх сур шагай'},
+      {w:'ТЭРЛЭГ',   h:'Монгол уламжлалт хувцас'},
+      {w:'ТОГОО',    h:'Монгол айлын гал дээр тавьдаг том сав'},
+      {w:'СҮРЭГ',    h:'Олон мал хамтдаа явах'},
+      {w:'АРГАЛ',    h:'Малын хатсан баас — гал түлшинд хэрэглэдэг'},
+      {w:'ХОНИНЫ',   h:'Монгол айлын хамгийн их тоолдог малын мах'},
+      {w:'ЦАГААН',   h:'Цагаан сарын мэндчилгэний өдөр'},
+      {w:'ОТОГ',     h:'Монголын нүүдэлчдийн бүлгийн нэгж'},
+      {w:'БАНШТАЙ',  h:'Мах хийж бүтээсэн монгол гурилан хоол'},
+      {w:'ЦУЙВАН',   h:'Мах гурилыг хамт хуурч хийдэг монгол хоол'},
+      {w:'ХУУШУУР',  h:'Тосонд шарсан монгол гурилан хоол'},
+      {w:'ТАРАГ',    h:'Исгэсэн сүүгээр хийсэн монгол цагаан идээ'},
+      {w:'АЙРАГ',    h:'Гүүний сүүгээр хийсэн монгол ундаа'},
+    ]
+  },
+  {
+    id:'nature', name:'Байгаль', emoji:'🏔️', color:'#27ae60',
+    words:[
+      {w:'ГОВЬ',     h:'Монголын өмнөд хэсэгт оршдог цөлийн бүс'},
+      {w:'ХӨВСГӨЛ',  h:'Монголын хамгийн том цэнгэг усны нуур'},
+      {w:'ТАЙГА',    h:'Шилмүүст мод бүхий хойд бүсийн ой'},
+      {w:'АЛТАЙ',    h:'Монголын баруун хэсгийн өндөр уулс'},
+      {w:'ДАЛАЙ',    h:'Дэлхийн хамгийн том усан сан'},
+      {w:'ЦАСАН',    h:'Өвөлдөө унадаг цагаан мөстэй тунадас'},
+      {w:'НУУР',     h:'Усаар дүүрэн хуурай газраар хүрээлэгдсэн'},
+      {w:'ГОЛЫН',    h:'Уулаас урсан ирж тал нутгаар дайрдаг ус'},
+      {w:'ХАЙРХАН',  h:'Монголчуудын ариун дагшин ууланд өгдөг нэр'},
+      {w:'ТЭГШ',     h:'Нам дор хавтгай газар'},
+      {w:'ДОРНОД',   h:'Монголын зүүн хэсгийн өргөн тал нутаг'},
+      {w:'ӨВӨР',     h:'Монголын өмнөд хэсэгт оршдог нутаг'},
+    ]
+  },
+  {
+    id:'sport', name:'Спорт', emoji:'🏆', color:'#f39c12',
+    words:[
+      {w:'БӨХИЙН',   h:'Монголын үндэсний биеийн тэмцэгч спорт'},
+      {w:'СУРЫН',    h:'Нум сумаар онилдог монгол уламжлалт спорт'},
+      {w:'ХӨЛБӨМБӨГ',h:'Хөлөөр бөмбөг цохидог дэлхийн алдартай тоглоом'},
+      {w:'САГСБӨМБӨГ',h:'Торонд бөмбөг оруулдаг спорт'},
+      {w:'ГҮЙЛТ',    h:'Хурдан явган явах биеийн тамирын хэлбэр'},
+      {w:'УСАНД',    h:'Усан дотор гараа хөдөлгөж явах биеийн тамир'},
+      {w:'ДЭВШИХ',   h:'Бие хөдөлгөж өндөрт хүрэх биеийн тамир'},
+      {w:'ТЭМЦЭЛ',   h:'Хоёр тал ялалт авахаар өрсөлдөх'},
+      {w:'ШАТАР',    h:'Оюун ухааны тоглоом — 64 нүдтэй самбар'},
+      {w:'АГНУУР',   h:'Монголчуудын уламжлалт ан агнах урлаг'},
+    ]
+  },
+  {
+    id:'fun', name:'Хөгжилтэй', emoji:'😂', color:'#9b59b6',
+    words:[
+      {w:'ИНЭЭМСЭГ',  h:'Аз жаргалтай үед нүүрэн дээр харагддаг'},
+      {w:'НААДАХ',    h:'Хүүхдүүдийн хамгийн дуртай зүйл'},
+      {w:'НАЙРАМДАЛ', h:'Хоёр хүний сайн харилцаа'},
+      {w:'БАЯРТАЙ',   h:'Явахдаа хэлдэг үг'},
+      {w:'АМТТАЙ',    h:'Хоол идэхэд таалагддаг'},
+      {w:'ХУРДАН',    h:'Маш түргэн явах'},
+      {w:'ГОЁМСОГ',   h:'Харахад таятай, сайхан харагдах'},
+      {w:'ДУУЛАХ',    h:'Амаараа аялгуу гаргах'},
+      {w:'БҮЖИГЛЭХ',  h:'Хөгжимд тааруулан биеэ хөдөлгөх'},
+      {w:'УНТАХ',     h:'Шөнийн хамгийн тааламжтай зүйл'},
+      {w:'ИДЭХ',      h:'Амнаасаа хоол оруулах үйл'},
+      {w:'ТОГЛООМ',   h:'Хүүхэд болон насанд хүрэгчдийн зугаацуулагч'},
+    ]
+  },
+  {
+    id:'iq', name:'IQ Шалгалт', emoji:'🧠', color:'#2980b9',
+    words:[
+      {w:'МАТЕМАТИК',  h:'Тоо болон хэмжигдэхүүнийг судалдаг шинжлэх ухаан'},
+      {w:'ФИЗИК',      h:'Байгалийн хуулиудыг судалдаг шинжлэх ухаан'},
+      {w:'ХИМИ',       h:'Бодисын бүтэц найрлагыг судалдаг шинжлэх ухаан'},
+      {w:'БИОЛОГИ',    h:'Амьд биетийг судалдаг шинжлэх ухаан'},
+      {w:'ГАЗАРЗҮЙ',   h:'Дэлхийн газар нутгийг судалдаг шинжлэх ухаан'},
+      {w:'ТҮҮХ',       h:'Өнгөрсөн үеийн үйл явдлыг судалдаг шинжлэх ухаан'},
+      {w:'ФИЛОСОФИ',   h:'Оршихуй мэдлэгийн асуудлыг судалдаг шинжлэх ухаан'},
+      {w:'ЭДИЙН',      h:'Нийгмийн материаллаг хэрэгцээг судалдаг шинжлэх ухаан'},
+      {w:'ПРОГРАМ',    h:'Компьютерт даалгавар өгдөг хэл'},
+      {w:'АЛГОРИТМ',   h:'Асуудал шийдэх алхамуудын дараалал'},
+      {w:'ИНТЕРНЕТ',   h:'Дэлхий нийтийг холбосон сүлжээ'},
+      {w:'ХИЙМЭЛ',     h:'Компьютерээр хийсэн оюун ухаан'},
+    ]
+  },
+  {
+    id:'city', name:'Газар Орон', emoji:'🗺️', color:'#1abc9c',
+    words:[
+      {w:'НИЙСЛЭЛ',    h:'Монголын нийслэл хот Улаанбаатар'},
+      {w:'ДАРХАН',     h:'Монголын хоёрдугаар том хот'},
+      {w:'ЭРДЭНЭТ',   h:'Монголын зэс молибдений хот'},
+      {w:'ДОРНОД',     h:'Монголын зүүн аймаг'},
+      {w:'НАЛАЙХ',     h:'Улаанбаатарын нүүрсний дүүрэг'},
+      {w:'СҮХБААТАР',  h:'Монголын баатар зэрэглэлтэй аймгийн нэр'},
+      {w:'ЗАМЫН',      h:'Монгол Хятадын хил дэх хот'},
+      {w:'ЦЭЦЭРЛЭГ',   h:'Монголын баруун аймгийн төв'},
+      {w:'МӨРӨН',      h:'Хөвсгөл аймгийн төв хот'},
+      {w:'ХОВД',       h:'Монголын баруун аймгийн нэр'},
+    ]
+  },
 ];
 
+/* ═══ STATE ══════════════════════════════════════════ */
 const MN_KB=[
   ['А','Б','В','Г','Д','Е','Ё'],
   ['Ж','З','И','Й','К','Л','М'],
@@ -577,32 +498,72 @@ const MN_KB=[
   ['У','Ү','Ф','Х','Ц','Ч','Ш'],
   ['Щ','Ъ','Ы','Ь','Э','Ю','Я'],
 ];
-
+const ALL_MN=MN_KB.flat();
 const MAX_WRONG=6;
-let curWord, guessed, wrongCount, score=0, streak=0, used=[], gameOver=false;
+let selCat=null, curWord, guessed, wrongCount, score=0, streak=0, used={}, gameOver=false;
 
+/* ═══ CATEGORY SCREEN ════════════════════════════════ */
+function buildCatScreen(){
+  const grid=document.getElementById('cat-grid');
+  grid.innerHTML='';
+  CATEGORIES.forEach(cat=>{
+    const card=document.createElement('div');
+    card.className='cat-card';
+    card.style.setProperty('--clr',cat.color);
+    card.innerHTML=`<span class="cat-emoji">${cat.emoji}</span><div class="cat-name">${cat.name}</div><div class="cat-count">${cat.words.length} үг</div>`;
+    card.addEventListener('click',()=>selectCat(cat.id,card));
+    grid.appendChild(card);
+  });
+}
+
+function selectCat(id, card){
+  sfx.key();
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('selected'));
+  card.classList.add('selected');
+  selCat=id;
+  document.getElementById('start-btn').classList.add('show');
+}
+
+function startGame(){
+  if(!selCat) return;
+  sfx.start();
+  document.getElementById('cat-screen').style.display='none';
+  const gs=document.getElementById('game-screen');
+  gs.style.display='flex';
+  score=0; streak=0;
+  document.getElementById('score-val').textContent=0;
+  document.getElementById('streak-val').textContent=0;
+  const cat=CATEGORIES.find(c=>c.id===selCat);
+  document.getElementById('cat-chip').textContent=cat.emoji+' '+cat.name;
+  document.getElementById('page-title').textContent=cat.name+' — Үг Таах';
+  loadWord();
+}
+
+function goBack(){
+  document.getElementById('overlay').classList.remove('show');
+  document.getElementById('game-screen').style.display='none';
+  document.getElementById('cat-screen').style.display='flex';
+  selCat=null;
+  document.querySelectorAll('.cat-card').forEach(c=>c.classList.remove('selected'));
+  document.getElementById('start-btn').classList.remove('show');
+}
+
+/* ═══ GAME LOGIC ══════════════════════════════════════ */
 function loadWord(){
   document.getElementById('overlay').classList.remove('show');
-  if(used.length===WORDS.length) used=[];
+  const cat=CATEGORIES.find(c=>c.id===selCat);
+  if(!used[selCat]) used[selCat]=[];
+  if(used[selCat].length>=cat.words.length) used[selCat]=[];
   let idx;
-  do{idx=Math.floor(Math.random()*WORDS.length);}while(used.includes(idx));
-  used.push(idx);
-  const entry=WORDS[idx];
+  do{idx=Math.floor(Math.random()*cat.words.length);}while(used[selCat].includes(idx));
+  used[selCat].push(idx);
+  const entry=cat.words[idx];
   curWord=entry.w.toUpperCase();
-  guessed=new Set();
-  wrongCount=0;
-  gameOver=false;
-
-  document.getElementById('page-title').textContent=entry.cat+' — Үг Таах';
-  document.getElementById('cat-tag').textContent=entry.cat;
-  document.getElementById('hint-text').textContent=entry.h;
+  guessed=new Set(); wrongCount=0; gameOver=false;
   document.getElementById('wrong-val').textContent=0;
-
-  resetBalloons();
-  resetPerson();
-  resetBearFace();
-  renderWord();
-  renderKB();
+  document.getElementById('hint-cat-tag').textContent=cat.emoji+' '+cat.name;
+  document.getElementById('hint-text').textContent=entry.h;
+  resetScene(); renderWord(); renderKB();
 }
 
 function renderWord(){
@@ -613,12 +574,10 @@ function renderWord(){
     slot.className='dash-slot';
     const letter=document.createElement('div');
     letter.className='dash-letter';
-    letter.id='dl-'+ch+Math.random().toString(36).slice(2,5);
-    if(guessed.has(ch)) letter.textContent=ch;
+    if(guessed.has(ch)){letter.textContent=ch;}
     const line=document.createElement('div');
     line.className='dash-line';
-    slot.appendChild(letter);
-    slot.appendChild(line);
+    slot.appendChild(letter); slot.appendChild(line);
     row.appendChild(slot);
   });
 }
@@ -626,11 +585,13 @@ function renderWord(){
 function refreshWord(){
   const slots=document.querySelectorAll('#word-row .dash-slot');
   curWord.split('').forEach((ch,i)=>{
-    const letter=slots[i].querySelector('.dash-letter');
     if(guessed.has(ch)){
-      letter.textContent=ch;
-      letter.style.animation='popIn .25s ease';
-      setTimeout(()=>letter.style.animation='',300);
+      const l=slots[i].querySelector('.dash-letter');
+      if(!l.textContent){
+        l.textContent=ch;
+        l.style.animation='none';
+        requestAnimationFrame(()=>{l.style.animation='letterPop .3s ease';});
+      }
     }
   });
 }
@@ -638,11 +599,9 @@ function refreshWord(){
 function revealAll(){
   const slots=document.querySelectorAll('#word-row .dash-slot');
   curWord.split('').forEach((ch,i)=>{
-    const letter=slots[i].querySelector('.dash-letter');
-    letter.textContent=ch;
-    if(!guessed.has(ch)){
-      slots[i].classList.add('wrong-reveal');
-    }
+    const l=slots[i].querySelector('.dash-letter');
+    l.textContent=ch;
+    if(!guessed.has(ch)) slots[i].classList.add('wrong-reveal');
   });
 }
 
@@ -654,13 +613,10 @@ function renderKB(){
     rowDiv.className='kb-row';
     row.forEach(ch=>{
       const btn=document.createElement('div');
-      btn.className='key';
-      btn.textContent=ch;
-      btn.id='key-'+ch;
-      if(guessed.has(ch))
-        btn.classList.add(curWord.includes(ch)?'correct':'wrong');
-      btn.addEventListener('click',()=>{sfx.key();guess(ch);});
-      btn.addEventListener('touchend',e=>{e.preventDefault();sfx.key();guess(ch);});
+      btn.className='key'; btn.textContent=ch; btn.id='key-'+ch;
+      if(guessed.has(ch)) btn.classList.add(curWord.includes(ch)?'correct':'wrong');
+      btn.addEventListener('click',()=>guess(ch));
+      btn.addEventListener('touchend',e=>{e.preventDefault();guess(ch);});
       rowDiv.appendChild(btn);
     });
     panel.appendChild(rowDiv);
@@ -669,6 +625,7 @@ function renderKB(){
 
 function guess(ch){
   if(guessed.has(ch)||gameOver) return;
+  sfx.key();
   guessed.add(ch);
   const btn=document.getElementById('key-'+ch);
   if(curWord.includes(ch)){
@@ -677,6 +634,7 @@ function guess(ch){
     refreshWord();
     if(curWord.split('').every(c=>guessed.has(c))) setTimeout(winGame,350);
   } else {
+    sfx.wrong();
     wrongCount++;
     document.getElementById('wrong-val').textContent=wrongCount;
     if(btn) btn.classList.add('wrong');
@@ -685,16 +643,21 @@ function guess(ch){
   }
 }
 
-/* ── Balloons ────────────────────────────── */
-function resetBalloons(){
+/* ═══ SCENE ══════════════════════════════════════════ */
+function resetScene(){
   for(let i=0;i<6;i++){
     const bi=document.getElementById('bi'+i);
-    const bb=document.getElementById('bb'+i);
     bi.classList.remove('popped');
-    bb.style.display='';
     bi.style.visibility='visible';
-    bi.querySelector('.balloon-string-svg').style.visibility='visible';
+    bi.querySelector('.balloon-string-line').style.visibility='visible';
   }
+  const pw=document.getElementById('person-wrap');
+  pw.style.transform='translateX(-50%)';
+  pw.classList.remove('falling');
+  document.getElementById('mouth').setAttribute('d','M25 18 Q30 22 35 18');
+  document.getElementById('eye-l').setAttribute('r','2');
+  document.getElementById('eye-r').setAttribute('r','2');
+  resetBearFace();
 }
 
 function popBalloon(idx){
@@ -702,62 +665,41 @@ function popBalloon(idx){
   const bi=document.getElementById('bi'+idx);
   const bb=document.getElementById('bb'+idx);
   bi.classList.add('popped');
-
   // particles
   const rect=bb.getBoundingClientRect();
   ['💥','✨','💨'].forEach((em,i)=>{
     setTimeout(()=>{
       const p=document.createElement('div');
-      p.className='pop-p';p.textContent=em;
-      p.style.left=(rect.left+rect.width/2-10+(i-1)*18)+'px';
+      p.className='pop-p'; p.textContent=em;
+      p.style.left=(rect.left+rect.width/2-10+(i-1)*20)+'px';
       p.style.top=rect.top+'px';
       document.body.appendChild(p);
       setTimeout(()=>p.remove(),700);
     },i*55);
   });
-
-  // flash
+  // screen flash
   const fl=document.createElement('div');
-  fl.className='flash';
-  fl.style.background='rgba(220,50,50,.12)';
-  document.body.appendChild(fl);
-  setTimeout(()=>fl.remove(),500);
-
-  setTimeout(()=>{ bi.style.visibility='hidden'; },280);
-
-  // Bear nom
+  fl.className='flash'; fl.style.background='rgba(220,50,50,.12)';
+  document.body.appendChild(fl); setTimeout(()=>fl.remove(),500);
+  setTimeout(()=>bi.style.visibility='hidden',280);
+  // tilt person
+  document.getElementById('person-wrap').style.transform=`translateX(-50%) rotate(${wrongCount*8}deg) translateY(${wrongCount*3}px)`;
+  // bear nom
   setTimeout(()=>{
     const bw=document.getElementById('bear-wrap');
     bw.classList.add('nom');
     setBearHungry(wrongCount);
     setTimeout(()=>bw.classList.remove('nom'),500);
-  },350);
-
-  // Tilt person with remaining balloons
-  const pw=document.getElementById('person-wrap');
-  const remaining=MAX_WRONG-wrongCount;
-  pw.style.transform=`translateX(-50%) rotate(${(wrongCount)*8}deg) translateY(${wrongCount*4}px)`;
+  },380);
 }
 
 function setBearHungry(n){
-  // As more balloons pop, bear looks more excited
-  const mouth=document.getElementById('bear-mouth');
+  const m=document.getElementById('bear-mouth');
   const el=document.getElementById('bear-eye-l');
   const er=document.getElementById('bear-eye-r');
-  if(n>=4){
-    mouth.setAttribute('d','M50 64 Q60 74 70 64');
-    el.setAttribute('r','4');
-    er.setAttribute('r','4');
-  } else if(n>=2){
-    mouth.setAttribute('d','M51 65 Q60 71 69 65');
-  }
-}
-
-function resetPerson(){
-  const pw=document.getElementById('person-wrap');
-  pw.style.transform='translateX(-50%)';
-  pw.classList.remove('falling');
-  document.getElementById('mouth').setAttribute('d','M25 18 Q30 22 35 18');
+  if(n>=5){ m.setAttribute('d','M48 62 Q60 76 72 62'); el.setAttribute('r','4.5'); er.setAttribute('r','4.5'); }
+  else if(n>=3){ m.setAttribute('d','M50 64 Q60 74 70 64'); el.setAttribute('r','4'); er.setAttribute('r','4'); }
+  else if(n>=1){ m.setAttribute('d','M51 65 Q60 71 69 65'); }
 }
 
 function resetBearFace(){
@@ -766,17 +708,18 @@ function resetBearFace(){
   document.getElementById('bear-eye-r').setAttribute('r','3');
 }
 
-/* ── Win / Lose ──────────────────────────── */
+/* ═══ WIN / LOSE ══════════════════════════════════════ */
 function winGame(){
   gameOver=true; sfx.win();
   const pts=Math.max(10,(MAX_WRONG-wrongCount+1)*15);
   score+=pts; streak++;
   document.getElementById('score-val').textContent=score;
   document.getElementById('streak-val').textContent=streak;
+  spawnConfetti();
   document.getElementById('res-emoji').textContent=wrongCount===0?'🏆':'🎉';
   document.getElementById('res-title').textContent=wrongCount===0?'Төгс! Алдаагүй!':'Зөв таалаа!';
   document.getElementById('res-word').innerHTML='Үг: <strong>'+curWord+'</strong>';
-  document.getElementById('res-info').innerHTML='Оноо нэмэгдлээ: <strong>+'+pts+'</strong>';
+  document.getElementById('res-info').innerHTML='Оноо: <strong>+'+pts+'</strong> · Нийт: <strong>'+score+'</strong>';
   setTimeout(()=>document.getElementById('overlay').classList.add('show'),500);
 }
 
@@ -786,24 +729,14 @@ function loseGame(){
   const pw=document.getElementById('person-wrap');
   pw.classList.add('falling');
   document.getElementById('mouth').setAttribute('d','M25 20 Q30 16 35 20');
-  // Eyes become X
-  setTimeout(()=>{
-    const eyeL=document.getElementById('eye-l');
-    const eyeR=document.getElementById('eye-r');
-    if(eyeL){eyeL.setAttribute('r','0');}
-    if(eyeR){eyeR.setAttribute('r','0');}
-  },400);
-
-  // Bear big happy
   setTimeout(()=>{
     const bw=document.getElementById('bear-wrap');
     bw.classList.add('nom');
-    document.getElementById('bear-mouth').setAttribute('d','M48 63 Q60 76 72 63');
-    document.getElementById('bear-eye-l').setAttribute('r','4.5');
-    document.getElementById('bear-eye-r').setAttribute('r','4.5');
+    document.getElementById('bear-mouth').setAttribute('d','M48 62 Q60 76 72 62');
+    document.getElementById('bear-eye-l').setAttribute('r','5');
+    document.getElementById('bear-eye-r').setAttribute('r','5');
     setTimeout(()=>bw.classList.remove('nom'),600);
   },500);
-
   revealAll();
   document.getElementById('res-emoji').textContent='💀';
   document.getElementById('res-title').textContent='Баавгайд идүүллээ!';
@@ -812,27 +745,38 @@ function loseGame(){
   setTimeout(()=>document.getElementById('overlay').classList.add('show'),950);
 }
 
-/* ── Toast ───────────────────────────────── */
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),1800);
+/* ═══ CONFETTI ════════════════════════════════════════ */
+function spawnConfetti(){
+  const colors=['#f97316','#22c55e','#3b82f6','#a855f7','#ec4899','#eab308'];
+  for(let i=0;i<28;i++){
+    setTimeout(()=>{
+      const c=document.createElement('div');
+      c.className='conf';
+      c.style.left=Math.random()*100+'vw';
+      c.style.background=colors[Math.floor(Math.random()*colors.length)];
+      c.style.animationDuration=(1.2+Math.random()*.8)+'s';
+      c.style.animationDelay=(Math.random()*.4)+'s';
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),2500);
+    },i*40);
+  }
 }
 
-/* ── Keyboard ────────────────────────────── */
-const ALL_MN=MN_KB.flat();
+/* ═══ TOAST ═══════════════════════════════════════════ */
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),1800);
+}
+
+/* ═══ KEYBOARD INPUT ══════════════════════════════════ */
 document.addEventListener('keydown',e=>{
   const ch=e.key.toUpperCase();
-  if(ALL_MN.includes(ch)&&!guessed.has(ch)){sfx.key();guess(ch);}
+  if(ALL_MN.includes(ch)&&!guessed.has(ch)) guess(ch);
 });
 
-/* ── CSS popIn ───────────────────────────── */
-const st=document.createElement('style');
-st.textContent=`@keyframes popIn{from{transform:scale(0.5);opacity:0}to{transform:scale(1);opacity:1}}`;
-document.head.appendChild(st);
-
-/* ── Start ───────────────────────────────── */
-loadWord();
+/* ═══ INIT ════════════════════════════════════════════ */
+buildCatScreen();
 </script>
 </body>
 </html>
